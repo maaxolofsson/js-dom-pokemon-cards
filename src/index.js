@@ -1,13 +1,8 @@
-console.log(data);
-
-//You can start simple and just render a single
-//pokemon card from the first element
-console.log(data[0]);
-
 const cardHolder = document.querySelector(".cards");
 
 function addPokemons() {
   data.forEach((pokemon) => {
+    let i = 0;
     const li = document.createElement("li");
     li.setAttribute("class", "card");
 
@@ -22,6 +17,29 @@ function addPokemons() {
     imgElement.classList.add("card--img");
     imgElement.src = pokemon.sprites.other["official-artwork"].front_default;
 
+    const imgSliderNextBtn = document.createElement("button");
+    imgSliderNextBtn.innerText = "Next image";
+    imgSliderNextBtn.addEventListener("click", function (li) {
+      ++i;
+      while (
+        Object.values(pokemon.sprites)[
+          (i % Object.values(pokemon.sprites).length) - 1
+        ] === null ||
+        Object.values(pokemon.sprites)[
+          (i % Object.values(pokemon.sprites).length) - 1
+        ] === undefined ||
+        Object.values(pokemon.sprites)[
+          (i % Object.values(pokemon.sprites).length) - 1
+        ] === undefined
+      ) {
+        ++i;
+      }
+      const currentSprite = Object.values(pokemon.sprites)[
+        (i % Object.values(pokemon.sprites).length) - 1
+      ];
+      imgElement.src = currentSprite;
+    });
+
     const statsHolder = document.createElement("ul");
     statsHolder.classList.add("card--text");
     pokemon.stats.forEach((stat) => {
@@ -33,21 +51,24 @@ function addPokemons() {
     const appearedInText = document.createElement("h4");
     appearedInText.innerText = "Games this pokemon has appeared in:";
 
-    const appearedInList = document.createElement("ul")
+    const appearedInList = document.createElement("ul");
     pokemon.game_indices.forEach((game) => {
-        const appearInListItem = document.createElement("li")
-        appearInListItem.innerText = game.version.name
-        appearedInList.appendChild(appearInListItem)
+      const appearInListItem = document.createElement("li");
+      appearInListItem.innerText = game.version.name;
+      appearedInList.appendChild(appearInListItem);
     });
 
+    li.appendChild(imgSliderNextBtn);
     li.appendChild(h2Element);
     li.appendChild(imgElement);
     li.appendChild(statsHolder);
     li.appendChild(appearedInText);
-    li.appendChild(appearedInList)
+    li.appendChild(appearedInList);
 
     cardHolder.appendChild(li);
   });
 }
+
+function nextImg(element) {}
 
 addPokemons();
