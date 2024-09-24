@@ -31,7 +31,7 @@ function addPokemons() {
         Object.values(pokemon.sprites)[
           (i % Object.values(pokemon.sprites).length) - 1
         ] === undefined
-      ) {
+      ) { 
         ++i;
       }
       const currentSprite = Object.values(pokemon.sprites)[
